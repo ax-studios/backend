@@ -1,0 +1,48 @@
+schema {
+  query: Query
+  # mutation: Mutation
+}
+
+type Query {
+  students(id: ID): [Student]
+  classes(id: ID): [Class]
+}
+
+type Student {
+  enrollNum: ID!
+  name: String!
+  email: String
+  contactNum: [String]!
+  class: Class!
+}
+
+type Class {
+  id: ID!
+  name: String!
+  teachers: [SubjectTeacher]
+  students: [Student]
+}
+
+type Subject {
+  code: ID!
+  name: String!
+}
+
+type Teacher {
+  id: ID!
+  name: String!
+  email: String!
+  contactNum: [String]!
+  subjects: [Subject]
+}
+
+type StudyMaterial {
+  id: ID!
+  subject: Subject!
+  teacher: Teacher!
+}
+
+type SubjectTeacher {
+  subject_id: ID
+  teacher_id: ID
+}

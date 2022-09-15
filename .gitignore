@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +128,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+=======
+venv
+__pycache__
+*.db
+*.db.old
+>>>>>>> 9bac4f4 (initial all relationships complete --phone_no left)
