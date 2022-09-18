@@ -3,6 +3,7 @@ import random
 from app import db
 from api.models import Student, Class, Subject, SubjectTeacher, Teacher, users
 
+db.drop_all()
 db.create_all()
 
 # List of 20 random indian names

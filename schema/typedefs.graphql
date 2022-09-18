@@ -1,0 +1,47 @@
+interface User{
+  name: String!
+  email: String
+  mobileNo: String!
+  # username: String!
+}
+
+type Student implements User {
+  name: String!
+  email: String
+  mobileNo: String!
+  # username: String
+  enrollNo: String!
+  class_: Class!
+}
+
+type Class {
+  id: ID!
+  name: String!
+  subjectTeacher: [SubjectTeacher]
+  # teachers: [Teacher]
+  # students: [Student]
+}
+
+type Subject {
+  code: ID!
+  name: String!
+}
+
+type Teacher {
+  name: String!
+  email: String
+  mobileNo: String!
+  # username: String
+  subjects: [Subject]
+}
+
+type StudyMaterial {
+  id: ID!
+  subject: Subject!
+  teacher: Teacher!
+}
+
+type SubjectTeacher {
+  subject_id: ID
+  teacher_id: ID
+}

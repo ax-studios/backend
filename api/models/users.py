@@ -44,6 +44,10 @@ class Student(User):
     enroll_no = db.Column(db.String(10), unique=True, nullable=False)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
 
+    class_ = db.relationship('Class', back_populates='students')
+
+
+
     __mapper_args__ = {
         'polymorphic_identity': 'students',
     }

@@ -12,6 +12,8 @@ class Subject(db.Model):
     name=db.Column(db.String)
     teachers = db.relationship('Teacher', secondary='subject_teacher', back_populates='subjects')
 
+    # subject_teacher = db.relationship('SubjectTeacher', back_populates='subject')
+
     def jsonify(self):
         return {
             'id' : self.id,

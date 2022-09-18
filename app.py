@@ -13,7 +13,7 @@ query = ObjectType("Query")
 query.set_field("students", resolve_students)
 # query.set_field("classes", resolve_classes)
 
-type_defs = load_schema_from_path("schema.graphql")
+type_defs = load_schema_from_path("./schema/")
 schema = make_executable_schema(
     type_defs, query, snake_case_fallback_resolvers
 )

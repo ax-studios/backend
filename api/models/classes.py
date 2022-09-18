@@ -12,10 +12,13 @@ class Class(db.Model):
 
     subject_teacher = db.relationship('SubjectTeacher',secondary='class_to_subject_teacher',back_populates='classes')
 
+    students = db.relationship('Student', back_populates='class_')
+
     def jsonify(self):
         return {
             'id' : self.id,
             'name' : self.name,
+            'subject_teacher' : [i.jsonify() for i in self.subject_teacher]
         }
 
 
