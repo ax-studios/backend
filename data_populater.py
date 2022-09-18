@@ -1,6 +1,7 @@
 import pprint
 import random
 from app import db
+from api.models.relation_tables import ClassToSubjectTeacher
 from api.models import Student, Class, Subject, SubjectTeacher, Teacher, users
 
 db.drop_all()
@@ -102,9 +103,11 @@ t_email_addresses = [i+"@itmbu.ac.in" for i in s_names]
 
 # Create 2 classes
 class_1 = Class(name="AI")
+# class_1.students = []
 db.session.add(class_1)
 db.session.commit()
 class_2 = Class(name="CS")
+# class_2.students = []
 db.session.add(class_2)
 db.session.commit()
 
@@ -116,9 +119,8 @@ for i in range(20):
         mobile_no=contact_numbers[i],
         email=email_addresses[i],
         enroll_no=enroll_numbers[i],
-        class_id=random.choice([class_1.id, class_2.id])
+        class_id=random.choice([1, 2]),
     )
-    # student.class_.append()
     db.session.add(student)
     db.session.commit()
 
@@ -136,27 +138,40 @@ for i in range(10):
         name=t_names[i],
         mobile_no=t_contact_numbers[i],
         email=t_email_addresses[i],
-        subjects=[random.choice(languages), random.choice(languages)]
     )
-    # teacher.contact_nos.append(t_contact_numbers[i])
     db.session.add(teacher)
     db.session.commit()
 
+# Create 20 subject_teacher relations
+for i in range(10):
+    subject_teacher = SubjectTeacher(
+        subject_id=languages[i].id,
+        teacher_id=random.choice(Teacher.query.all()).id
+    )
+    db.session.add(subject_teacher)
+    db.session.commit()
+
+# Create 20 class_to_subject_teacher relations
 for i in range(4):
-    class_1.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
-    class_2.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
-    db.session.add_all([class_2, class_1])
+    class_to_subject_teacher1 = ClassToSubjectTeacher(
+        class_id=class_1.id,
+        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id
+    )
+    class_to_subject_teacher2 = ClassToSubjectTeacher(
+        class_id=class_2.id,
+        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id
+    )
+    db.session.add_all([class_to_subject_teacher1, class_to_subject_teacher2])
     db.session.commit()
 
 
 
-# class_1.subject_teacher = [
+# for i in range(4):
+#     # print("+++",type(class_1.subject_teacher))
+#     # print("+++",type(class_2.subject_teacher))
 
+#     class_1.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
+#     class_2.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
+#     db.session.add_all([class_2, class_1])
+#     db.session.commit()
 
-
-# print("--------",class_1.subject_teacher)
-# class_1.subject_teacher = [(users.query.all())]
-# print("--------", class_1.subject_teacher[0].to_dict())
-# db.session.commit()
-# print(SubjectTeacher.query.all())
-# print("------------------", languages[0].teachers)

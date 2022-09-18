@@ -10,7 +10,7 @@ class Class(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String)
 
-    subject_teacher = db.relationship('SubjectTeacher',secondary='class_to_subject_teacher',back_populates='classes')
+    subject_teacher = db.relationship('SubjectTeacher',secondary='class_to_subject_teacher',back_populates='class_')
 
     students = db.relationship('Student', back_populates='class_')
 
@@ -18,7 +18,8 @@ class Class(db.Model):
         return {
             'id' : self.id,
             'name' : self.name,
-            'subject_teacher' : [i.jsonify() for i in self.subject_teacher]
+            # 'students' : self.students,
+            # 'subject_teacher' : [i.jsonify() for i in self.subject_teacher]
         }
 
 

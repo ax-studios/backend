@@ -46,8 +46,6 @@ class Student(User):
 
     class_ = db.relationship('Class', back_populates='students')
 
-
-
     __mapper_args__ = {
         'polymorphic_identity': 'students',
     }
@@ -66,8 +64,7 @@ class Teacher(User):
 
     id = db.Column(psql.UUID, db.ForeignKey('users.id'), primary_key=True)
 
-    subjects = db.relationship(
-        'Subject', secondary='subject_teacher', back_populates='teachers')
+    # subject_teacher = db.relationship('SubjectTeacher', secondary='subject_teacher', back_populates='teacher')
 
     __mapper_args__ = {
         'polymorphic_identity': 'teachers',
@@ -76,7 +73,5 @@ class Teacher(User):
     def jsonify(self):
         return {
             "id": self.id,
-            "username": self.username,
             "email": self.email,
-            "class_id": self.class_id
         }
