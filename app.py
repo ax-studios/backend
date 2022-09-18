@@ -11,7 +11,7 @@ from api.queries import *
 query = ObjectType("Query")
 
 query.set_field("students", resolve_students)
-query.set_field("classes", resolve_classes)
+# query.set_field("classes", resolve_classes)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(

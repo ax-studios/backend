@@ -1,5 +1,3 @@
-from enum import unique
-from pprint import pprint
 from app import db
 from sqlalchemy import *
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
@@ -11,12 +9,12 @@ class_to_SubjectTeacher = db.Table(
         db.Column('class',db.Integer,db.ForeignKey('classes.id')),
     )
 
-class PhoneNumbers(db.Model):
-    __tablename__ = "phone_numbers"
-    id = db.Column(db.Integer, primary_key=True)
-    phone_number = db.Column(db.String(10), nullable=False)
-    associated_teacher = db.Column(db.Integer, db.ForeignKey('teachers.id'))
-    associated_student = db.Column(db.String, db.ForeignKey('students.id'))
+# class PhoneNumbers(db.Model):
+#     __tablename__ = "phone_numbers"
+#     id = db.Column(db.Integer, primary_key=True)
+#     phone_number = db.Column(db.String(10), nullable=False)
+#     associated_teacher = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+#     associated_student = db.Column(db.String, db.ForeignKey('students.id'))
     
 
 class SubjectTeacher(db.Model):
@@ -91,8 +89,6 @@ class Teacher(db.Model):
     name = db.Column(String,nullable=False)
     email = db.Column(String,nullable=False,unique=True)
     contact_num = db.Column(ARRAY(String),nullable=False,unique=True)
-    # contact_nos = db.relationship('PhoneNumbers')
-    # contact_nos = db.Column(ARRAY(ForeignKey('contact_numbers.id')),nullable=False,unique=True)
     subjects = db.relationship('Subject',secondary='subject_teacher',backref='teachers')
 
     # @property
@@ -101,6 +97,10 @@ class Teacher(db.Model):
 
     # @contacts.setter
     # def contacts(self,contacts):
+    #     for i in contacts:
+    #         self.contacts.append(i)
+    #     self.contact_num = contacts
+
 
 
     def to_dict(self):
