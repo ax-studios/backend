@@ -18,8 +18,8 @@ type Class {
   id: ID!
   name: String!
   subjectTeacher: [SubjectTeacher]
-  # teachers: [Teacher]
-  # students: [Student]
+  teachers: [Teacher]
+  students: [Student]
 }
 
 type Subject {
@@ -32,6 +32,7 @@ type Teacher {
   email: String
   mobileNo: String!
   # username: String
+  subjectTeacher: [SubjectTeacher]
   subjects: [Subject]
 }
 
@@ -42,6 +43,6 @@ type StudyMaterial {
 }
 
 type SubjectTeacher {
-  subject_id: ID
-  teacher_id: ID
+  subject: Subject
+  teacher: Teacher
 }

@@ -15,11 +15,11 @@ class SubjectTeacher(db.Model):
 
     class_ = db.relationship('Class', secondary='class_to_subject_teacher', back_populates='subject_teacher')
 
-    def jsonify(self):
+    def jsonify(self,parents:list):
         return {
             'id' : self.id,
-            'subject' : self.subject,
-            'teacher' : self.teacher,
+            'subject' : self.subject.jsonify([self.__tablename__]) if 'subjects' not in parents else None,
+            'teacher' : self.teacher.jsonify([self.__tablename__]) if 'teachers' not in parents else None,
         }
 
 
@@ -28,13 +28,6 @@ class ClassToSubjectTeacher(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     class_id=db.Column(ForeignKey('classes.id'))
     subject_teacher_id=db.Column(ForeignKey('subject_teacher.id'))
-
-    def jsonify(self):
-        return {
-            'id' : self.id,
-            'subject_teacher' : self.subject_teacher,
-            'class' : self.class_,
-        }
 
 # class_to_subject_teacher = db.Table(
 #     'class_to_subject_teacher',

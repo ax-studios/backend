@@ -14,14 +14,15 @@ class Class(db.Model):
 
     students = db.relationship('Student', back_populates='class_')
 
-    def jsonify(self):
-        return {
+
+    def jsonify(self,parents):
+        result = {
             'id' : self.id,
             'name' : self.name,
-            # 'students' : self.students,
-            # 'subject_teacher' : [i.jsonify() for i in self.subject_teacher]
+            # 'subject_teacher' : [i.jsonify() for i in self.subject_teacher],
+            'students' : [i.jsonify(parents+[self.__tablename__]) for i in self.students] if 'students' not in parents else None
         }
-
+        return result
 
 
 

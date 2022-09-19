@@ -2,10 +2,11 @@ import email
 import json
 from turtle import st
 from app import db
-from api.models.relation_tables import SubjectTeacher
+from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
 from api.models.classes import Class
 from api.models.users import Student, Teacher
 from api.models.subjects import Subject
+import pprint
 
 
 # db.drop_all()
@@ -27,21 +28,32 @@ from api.models.subjects import Subject
 
 # db.session.commit()
 
-print(Class.query.all()[0].jsonify())
-print(Student.query.all()[0].jsonify())
-print(Teacher.query.all()[0].jsonify())
-print(Subject.query.all()[0].jsonify())
-print()
+# print(Class.query.all()[0].jsonify())
+# print(Student.query.all()[0].jsonify())
+# print(Teacher.query.all()[0].jsonify())
+# print(Subject.query.all()[0].jsonify())
+# print()
 
-print(Class.query.all()[0].students)
-print(Student.query.all()[0].class_)
+# print(Class.query.all()[0].students)
+# print(Student.query.all()[0].class_)
 
-print(Teacher.query.all()[1].subject_teacher)
-print(Subject.query.all()[0].subject_teacher)
+# print(Teacher.query.all()[1].subject_teacher)
+# print(Subject.query.all()[0].subject_teacher)
 
-print(Class.query.all()[0].students)
+# print(Class.query.all()[0].students)
 
 # x=SubjectTeacher.query.all()[0].jsonify()
 
-# print(json.dumps(x,indent=2))
+pp=pprint.PrettyPrinter(indent=2)
 
+# x = Class.query.all()[0].jsonify([])
+# x = Student.query.all()[0].jsonify([])
+x = Teacher.query.all()[1].jsonify([])
+# x = SubjectTeacher.query.all()[0].jsonify([])
+# x = Subject.query.all()[1].jsonify([])
+
+
+pp.pprint(x)
+
+# print(json.dumps(x, indent=2))
+# print(x)
