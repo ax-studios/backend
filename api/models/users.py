@@ -103,7 +103,7 @@ class Teacher(User):
                     "subject": subject_teacher.subject.jsonify(
                         parents + [self.__tablename__, "class_subject"]
                     ),
-                    "class": class_.jsonify(
+                    "class_": class_.jsonify(
                         parents + [self.__tablename__, "class_subject"]
                     ),
                 }
