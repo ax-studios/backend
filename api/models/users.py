@@ -1,7 +1,8 @@
 from email.policy import default
+from api.models.relation_tables import ClassToSubjectTeacher
 from app import db
 
-from ..models import SubjectTeacher
+from ..models import SubjectTeacher, Class
 from sqlalchemy import *
 
 import sqlalchemy.dialects.postgresql as psql
@@ -10,11 +11,12 @@ import uuid
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     # Basic user info
-    id = db.Column(psql.UUID(as_uuid=True), primary_key=True,
-                   default=lambda: str(uuid.uuid4()))
+    id = db.Column(
+        psql.UUID(as_uuid=True), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
     name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     mobile_no = db.Column(db.String(15), unique=True, nullable=False)
@@ -25,10 +27,7 @@ class User(db.Model):
     # password = db.Column(String(120), nullable=False)
 
     # Connect child tables
-    __mapper_args__ = {
-        'polymorphic_identity': 'users',
-        'polymorphic_on': role
-    }
+    __mapper_args__ = {"polymorphic_identity": "users", "polymorphic_on": role}
 
     def jsonify(self):
         return {
@@ -40,25 +39,28 @@ class User(db.Model):
 
 
 class Student(User):
-    __tablename__ = 'students'
+    __tablename__ = "students"
 
-    id = db.Column(psql.UUID, db.ForeignKey('users.id'), primary_key=True)
+    id = db.Column(psql.UUID, db.ForeignKey("users.id"), primary_key=True)
     enroll_no = db.Column(db.String(10), unique=True, nullable=False)
-    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    class_id = db.Column(db.Integer, db.ForeignKey("classes.id"))
 
-    class_ = db.relationship('Class', back_populates='students')
+    class_ = db.relationship("Class", back_populates="students")
 
     __mapper_args__ = {
-        'polymorphic_identity': 'students',
+        "polymorphic_identity": "students",
     }
 
     def jsonify(self, parents):
         parent_json = super().jsonify()
-        parent_json.update({
-            "enroll_no": self.enroll_no,
-            "class_": self.class_.jsonify(parents+[f'{self.__tablename__}']) if 'classes' not in parents else None
-
-        })
+        parent_json.update(
+            {
+                "enroll_no": self.enroll_no,
+                "class_": self.class_.jsonify(parents + [f"{self.__tablename__}"])
+                if "classes" not in parents
+                else None,
+            }
+        )
 
         # update_if_not_in_parent(self,'class_',parents,json)
 
@@ -74,24 +76,62 @@ class Student(User):
 
 
 class Teacher(User):
-    __tablename__ = 'teachers'
+    __tablename__ = "teachers"
 
-    id = db.Column(psql.UUID, db.ForeignKey('users.id'), primary_key=True)
+    id = db.Column(psql.UUID, db.ForeignKey("users.id"), primary_key=True)
 
     # subject_teacher = db.relationship('SubjectTeacher', secondary='subject_teacher', back_populates='teacher')
 
     __mapper_args__ = {
-        'polymorphic_identity': 'teachers',
+        "polymorphic_identity": "teachers",
     }
 
-    # @property
-    # def subjects(self):
-    #     return [i.jsonify() for i in ]
+    def class_subject(self, parents=[]):
+        x = (
+            db.session.query(SubjectTeacher, Class)
+            .select_from(SubjectTeacher)
+            .join(Class.subject_teacher)
+            .filter_by(teacher_id=self.id)
+            .all()
+        )
 
-    def jsonify(self,parents):
+        lst = []
+        for subject_teacher, class_ in x:
+
+            lst.append(
+                {
+                    "subject": subject_teacher.subject.jsonify(
+                        parents + [self.__tablename__, "class_subject"]
+                    ),
+                    "class": class_.jsonify(
+                        parents + [self.__tablename__, "class_subject"]
+                    ),
+                }
+            )
+
+        return lst
+
+    def jsonify(self, parents):
         parent_dict = super().jsonify()
-        parent_dict.update({
-            'subjects': [i.subject.jsonify(parents+[self.__tablename__]) for i in SubjectTeacher.query.filter_by(teacher_id=self.id)] if 'teachers' not in parents else None,
-            'subject_teacher': [i.jsonify(parents+[self.__tablename__]) for i in self.subject_teacher] if 'subject_teacher' not in parents else None,
-        })
+        parent_dict.update(
+            {
+                "subjects": [
+                    i.subject.jsonify(parents + [self.__tablename__])
+                    for i in SubjectTeacher.query.filter_by(teacher_id=self.id)
+                ]
+                if "teachers" not in parents
+                else None,
+                "classes": [
+                    j.jsonify(parents + [self.__tablename__])
+                    for i in self.subject_teacher
+                    for j in i.class_
+                ]
+                if "classes" not in parents
+                else None,
+                "class_subject": self.class_subject(parents)
+                if "class_subject" not in parents
+                else None
+                # 'subject_teacher': [i.jsonify(parents+[self.__tablename__]) for i in self.subject_teacher] if 'subject_teacher' not in parents else None,
+            }
+        )
         return parent_dict

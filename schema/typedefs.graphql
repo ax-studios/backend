@@ -1,4 +1,4 @@
-interface User{
+interface User {
   name: String!
   email: String
   mobileNo: String!
@@ -16,15 +16,17 @@ type Student implements User {
 
 type Class {
   id: ID!
-  name: String!
-  subjectTeacher: [SubjectTeacher]
-  teachers: [Teacher]
-  students: [Student]
+  name: String
+  # subjectTeacher: [SubjectTeacher]
+  # teachers: [Teacher]
+  # students: [Student]
 }
 
 type Subject {
-  code: ID!
+  id: ID!
   name: String!
+  teachers: [Teacher]
+  subjectTeacher: [SubjectTeacher]
 }
 
 type Teacher {
@@ -32,8 +34,9 @@ type Teacher {
   email: String
   mobileNo: String!
   # username: String
-  subjectTeacher: [SubjectTeacher]
+  classes: [Class]
   subjects: [Subject]
+  classSubject: [ClassSubject]
 }
 
 type StudyMaterial {
@@ -45,4 +48,9 @@ type StudyMaterial {
 type SubjectTeacher {
   subject: Subject
   teacher: Teacher
+}
+
+type ClassSubject {
+  class_: Class
+  subject: Subject
 }

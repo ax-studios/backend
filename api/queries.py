@@ -1,3 +1,4 @@
+import pprint
 from api.models.users import Teacher
 from .models import Student,Class
 from ariadne import convert_kwargs_to_snake_case
@@ -30,6 +31,7 @@ def resolve_tst(obj, info):
 
     except Exception as error:
         payload = None
-
+    pp=pprint.PrettyPrinter(indent=2)
+    pp.pprint(payload)
     return payload
 

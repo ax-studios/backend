@@ -1,6 +1,7 @@
 import email
 import json
 from turtle import st
+from venv import create
 from app import db
 from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
 from api.models.classes import Class
@@ -10,6 +11,7 @@ import pprint
 
 
 # db.drop_all()
+
 # db.create_all()
 # c1=Class(name="class1")
 # db.session.add(c1)
@@ -28,6 +30,7 @@ import pprint
 
 # db.session.commit()
 
+
 # print(Class.query.all()[0].jsonify())
 # print(Student.query.all()[0].jsonify())
 # print(Teacher.query.all()[0].jsonify())
@@ -44,15 +47,33 @@ import pprint
 
 # x=SubjectTeacher.query.all()[0].jsonify()
 
-pp=pprint.PrettyPrinter(indent=2)
+pp = pprint.PrettyPrinter(indent=2)
 
 # x = Class.query.all()[0].jsonify([])
 # x = Student.query.all()[0].jsonify([])
-x = Teacher.query.all()[1].jsonify([])
+# x = Teacher.query.all()[5].jsonify([])
 # x = SubjectTeacher.query.all()[0].jsonify([])
 # x = Subject.query.all()[1].jsonify([])
+# x = SubjectTeacher.query.all()[2].class_
 
 
+# x = db.session.query(SubjectTeacher, Class).select_from(SubjectTeacher).join(Class.subject_teacher).filter_by(teacher_id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').all()
+# x = SubjectTeacher.query.select_from(SubjectTeacher).join(Class.subject_teacher).add_columns(Class).filter_by(teacher_id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').all()
+# x = db.session.query(Student, Class).select_from(Student).join(Class).all()
+
+
+# create teacher, class association
+
+# lst=[]
+
+# for subject_teacher,class_ in x:
+#     d={}
+#     d.update({"subject":subject_teacher.subject.jsonify([])})
+#     d.update({"class_":class_.jsonify([])})
+#     lst.append(d.copy())
+    # pp.pprint(k.jsonify([]))
+tch=Teacher.query.filter_by(id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').first()
+x= tch.class_subject(['teacher'])
 pp.pprint(x)
 
 # print(json.dumps(x, indent=2))
