@@ -58,6 +58,7 @@ pp = pprint.PrettyPrinter(indent=2)
 
 
 # x = db.session.query(SubjectTeacher, Class).select_from(SubjectTeacher).join(Class.subject_teacher).filter_by(teacher_id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').all()
+# x = db.session.query(SubjectTeacher, Class).select_from(SubjectTeacher).join(Class.subject_teacher).filter_by(subject_id=1).all()
 # x = SubjectTeacher.query.select_from(SubjectTeacher).join(Class.subject_teacher).add_columns(Class).filter_by(teacher_id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').all()
 # x = db.session.query(Student, Class).select_from(Student).join(Class).all()
 
@@ -72,9 +73,14 @@ pp = pprint.PrettyPrinter(indent=2)
 #     d.update({"class_":class_.jsonify([])})
 #     lst.append(d.copy())
     # pp.pprint(k.jsonify([]))
-tch=Teacher.query.filter_by(id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').first()
-x= tch.class_subject(['teacher'])
-pp.pprint(x)
+# tch=Teacher.query.filter_by(id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').first()
+# x= tch.class_subject(['teacher'])
+# for i in range(10):
+cls = Student.query.all()[1]
+pp.pprint(cls.jsonify([]))
+
+# subj= Subject.query.all()[0]
+print("a=\"Subject\"")
 
 # print(json.dumps(x, indent=2))
 # print(x)

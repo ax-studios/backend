@@ -1,210 +1,44 @@
-[
-    {
-        "class": {
-            "id": 1,
-            "name": "AI",
-            "students": [
-                {
-                    "class_": None,
-                    "email": "Kamal@gmail.com",
-                    "enroll_no": "21C22001",
-                    "mobile_no": "1234567890",
-                    "name": "Kamal",
-                },
-                {
-                    "class_": None,
-                    "email": "Raj@gmail.com",
-                    "enroll_no": "21C22003",
-                    "mobile_no": "1234567892",
-                    "name": "Raj",
-                },
-                {
-                    "class_": None,
-                    "email": "Rajesh@gmail.com",
-                    "enroll_no": "21C22004",
-                    "mobile_no": "1234567893",
-                    "name": "Rajesh",
-                },
-                {
-                    "class_": None,
-                    "email": "Ramesh@gmail.com",
-                    "enroll_no": "21C22005",
-                    "mobile_no": "1234567894",
-                    "name": "Ramesh",
-                },
-                {
-                    "class_": None,
-                    "email": "Ravi@gmail.com",
-                    "enroll_no": "21C22006",
-                    "mobile_no": "1234567895",
-                    "name": "Ravi",
-                },
-                {
-                    "class_": None,
-                    "email": "Ravindra@gmail.com",
-                    "enroll_no": "21C22007",
-                    "mobile_no": "1234567896",
-                    "name": "Ravindra",
-                },
-                {
-                    "class_": None,
-                    "email": "Sachin@gmail.com",
-                    "enroll_no": "21C22010",
-                    "mobile_no": "1234567899",
-                    "name": "Sachin",
-                },
-                {
-                    "class_": None,
-                    "email": "Sandeep@gmail.com",
-                    "enroll_no": "21C22014",
-                    "mobile_no": "1234567803",
-                    "name": "Sandeep",
-                },
-                {
-                    "class_": None,
-                    "email": "Sarvesh@gmail.com",
-                    "enroll_no": "21C22017",
-                    "mobile_no": "1234567806",
-                    "name": "Sarvesh",
-                },
-                {
-                    "class_": None,
-                    "email": "Saurabh@gmail.com",
-                    "enroll_no": "21C22018",
-                    "mobile_no": "1234567807",
-                    "name": "Saurabh",
-                },
-                {
-                    "class_": None,
-                    "email": "Saurav@gmail.com",
-                    "enroll_no": "21C22019",
-                    "mobile_no": "1234567808",
-                    "name": "Saurav",
-                },
-            ],
-            "subjects": [
-                {
-                    "id": 3,
-                    "name": "C",
-                    "subject_teacher": [{"id": 3, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-                {
-                    "id": 5,
-                    "name": "C#",
-                    "subject_teacher": [{"id": 5, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-                {
-                    "id": 6,
-                    "name": "JavaScript",
-                    "subject_teacher": [{"id": 6, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-            ],
-        },
-        "subject": {
-            "id": 3,
-            "name": "C",
-            "subject_teacher": [{"id": 3, "subject": None, "teacher": None}],
-            "teachers": None,
-        },
-    },
-    {
-        "class": {
-            "id": 2,
-            "name": "CS",
-            "students": [
-                {
-                    "class_": None,
-                    "email": "Rahul@gmail.com",
-                    "enroll_no": "21C22002",
-                    "mobile_no": "1234567891",
-                    "name": "Rahul",
-                },
-                {
-                    "class_": None,
-                    "email": "Rohan@gmail.com",
-                    "enroll_no": "21C22008",
-                    "mobile_no": "1234567897",
-                    "name": "Rohan",
-                },
-                {
-                    "class_": None,
-                    "email": "Ronak@gmail.com",
-                    "enroll_no": "21C22009",
-                    "mobile_no": "1234567898",
+{
+    "class_": {
+        "id": 2,
+        "name": "CS",
+        "students": None,
+        "subject_teacher": [
+            {
+                "id": 1,
+                "subject": {"class_teacher": None, "id": 1, "name": "Python"},
+                "teacher": {
+                    "class_subject": None,
+                    "email": "Ronak@itmbu.ac.in",
+                    "mobile_no": "9934567897",
                     "name": "Ronak",
                 },
-                {
-                    "class_": None,
-                    "email": "Sagar@gmail.com",
-                    "enroll_no": "21C22011",
-                    "mobile_no": "1234567800",
-                    "name": "Sagar",
+            },
+            {
+                "id": 4,
+                "subject": {"class_teacher": None, "id": 4, "name": "C++"},
+                "teacher": {
+                    "class_subject": None,
+                    "email": "Ravindra@itmbu.ac.in",
+                    "mobile_no": "9934567895",
+                    "name": "Ravindra",
                 },
-                {
-                    "class_": None,
-                    "email": "Sahil@gmail.com",
-                    "enroll_no": "21C22012",
-                    "mobile_no": "1234567801",
-                    "name": "Sahil",
+            },
+            {
+                "id": 7,
+                "subject": {"class_teacher": None, "id": 7, "name": "HTML"},
+                "teacher": {
+                    "class_subject": None,
+                    "email": "Ravi@itmbu.ac.in",
+                    "mobile_no": "9934567894",
+                    "name": "Ravi",
                 },
-                {
-                    "class_": None,
-                    "email": "Sajid@gmail.com",
-                    "enroll_no": "21C22013",
-                    "mobile_no": "1234567802",
-                    "name": "Sajid",
-                },
-                {
-                    "class_": None,
-                    "email": "Santosh@gmail.com",
-                    "enroll_no": "21C22015",
-                    "mobile_no": "1234567804",
-                    "name": "Santosh",
-                },
-                {
-                    "class_": None,
-                    "email": "Sarfaraz@gmail.com",
-                    "enroll_no": "21C22016",
-                    "mobile_no": "1234567805",
-                    "name": "Sarfaraz",
-                },
-                {
-                    "class_": None,
-                    "email": "Savita@gmail.com",
-                    "enroll_no": "21C22020",
-                    "mobile_no": "1234567809",
-                    "name": "Savita",
-                },
-            ],
-            "subjects": [
-                {
-                    "id": 1,
-                    "name": "Python",
-                    "subject_teacher": [{"id": 1, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-                {
-                    "id": 4,
-                    "name": "C++",
-                    "subject_teacher": [{"id": 4, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-                {
-                    "id": 7,
-                    "name": "HTML",
-                    "subject_teacher": [{"id": 7, "subject": None, "teacher": None}],
-                    "teachers": None,
-                },
-            ],
-        },
-        "subject": {
-            "id": 7,
-            "name": "HTML",
-            "subject_teacher": [{"id": 7, "subject": None, "teacher": None}],
-            "teachers": None,
-        },
+            },
+        ],
     },
-]
+    "email": "Rahul@gmail.com",
+    "enroll_no": "21C22002",
+    "mobile_no": "1234567891",
+    "name": "Rahul",
+}
+a = "Subject"

@@ -61,17 +61,6 @@ class Student(User):
                 else None,
             }
         )
-
-        # update_if_not_in_parent(self,'class_',parents,json)
-
-        # self.__getattribute__
-
-        # if 'classses' not in parents:
-        #     parent_json.update({
-        #     })
-        # else:
-        #     'class_': None
-        # print(parent_json)
         return parent_json
 
 
@@ -101,10 +90,10 @@ class Teacher(User):
             lst.append(
                 {
                     "subject": subject_teacher.subject.jsonify(
-                        parents + [self.__tablename__, "class_subject"]
+                        parents + [self.__tablename__, "classes","subjects"]
                     ),
                     "class_": class_.jsonify(
-                        parents + [self.__tablename__, "class_subject"]
+                        parents + [self.__tablename__, "classes","subjects"]
                     ),
                 }
             )
@@ -115,23 +104,9 @@ class Teacher(User):
         parent_dict = super().jsonify()
         parent_dict.update(
             {
-                "subjects": [
-                    i.subject.jsonify(parents + [self.__tablename__])
-                    for i in SubjectTeacher.query.filter_by(teacher_id=self.id)
-                ]
-                if "teachers" not in parents
-                else None,
-                "classes": [
-                    j.jsonify(parents + [self.__tablename__])
-                    for i in self.subject_teacher
-                    for j in i.class_
-                ]
-                if "classes" not in parents
-                else None,
                 "class_subject": self.class_subject(parents)
-                if "class_subject" not in parents
+                if "classes" not in parents and "subjects" not in parents
                 else None
-                # 'subject_teacher': [i.jsonify(parents+[self.__tablename__]) for i in self.subject_teacher] if 'subject_teacher' not in parents else None,
             }
         )
         return parent_dict
