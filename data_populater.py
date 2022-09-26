@@ -2,7 +2,7 @@ import pprint
 import random
 from app import db
 from api.models.relation_tables import ClassToSubjectTeacher
-from api.models import Student, Class, Subject, SubjectTeacher, Teacher, users
+from api.models import Student, Class, Subject, SubjectTeacher, Teacher
 
 db.drop_all()
 db.create_all()
@@ -102,11 +102,11 @@ enroll_numbers = ["21C220" + ("0" if i < 10 else "") + str(i)
 t_email_addresses = [i+"@itmbu.ac.in" for i in s_names]
 
 # Create 2 classes
-class_1 = Class(name="AI")
+class_1 = Class(name="AI".lower())
 # class_1.students = []
 db.session.add(class_1)
 db.session.commit()
-class_2 = Class(name="CS")
+class_2 = Class(name="CS".lower())
 # class_2.students = []
 db.session.add(class_2)
 db.session.commit()
@@ -116,9 +116,9 @@ db.session.commit()
 for i in range(20):
     student = Student(
         name=s_names[i],
-        mobile_no=contact_numbers[i],
-        email=email_addresses[i],
-        enroll_no=enroll_numbers[i],
+        mobile_no=contact_numbers[i].lower(),
+        email=email_addresses[i].lower(),
+        enroll_no=enroll_numbers[i].lower(),
         class_id=random.choice([1, 2]),
     )
     db.session.add(student)
@@ -136,8 +136,8 @@ for i in range(10):
 for i in range(10):
     teacher = Teacher(
         name=t_names[i],
-        mobile_no=t_contact_numbers[i],
-        email=t_email_addresses[i],
+        mobile_no=t_contact_numbers[i].lower(),
+        email=t_email_addresses[i].lower(),
     )
     db.session.add(teacher)
     db.session.commit()

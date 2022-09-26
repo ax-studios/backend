@@ -14,35 +14,25 @@ type Student implements User {
   class_: Class!
 }
 
+type Teacher implements User {
+  name: String!
+  email: String
+  mobileNo: String!
+  # username: String
+  classSubject: [ClassSubject]
+}
+
 type Class {
   id: ID!
   name: String
-  # subjectTeacher: [SubjectTeacher]
-  # teachers: [Teacher]
-  # students: [Student]
+  subjectTeacher: [SubjectTeacher]
+  students: [Student]
 }
 
 type Subject {
   id: ID!
   name: String!
-  teachers: [Teacher]
-  subjectTeacher: [SubjectTeacher]
-}
-
-type Teacher {
-  name: String!
-  email: String
-  mobileNo: String!
-  # username: String
-  classes: [Class]
-  subjects: [Subject]
-  classSubject: [ClassSubject]
-}
-
-type StudyMaterial {
-  id: ID!
-  subject: Subject!
-  teacher: Teacher!
+  classTeacher: [ClassTeacher]
 }
 
 type SubjectTeacher {
@@ -53,4 +43,9 @@ type SubjectTeacher {
 type ClassSubject {
   class_: Class
   subject: Subject
+}
+
+type ClassTeacher {
+  class_: Class
+  teacher: Teacher
 }

@@ -4,7 +4,23 @@ schema {
 }
 
 type Query {
-  students(enrollNo: String): [Student]
-  tst: [Teacher]
-}
 
+  getStudents(
+    enrollNo: String,
+    email: String,
+    # username: String,
+  ): [Student]
+
+  getTeachers(
+    email: String,
+    # username: String,
+  ): [Teacher]
+
+  getClasses(
+    name: String
+  ): [Class]
+
+  getSubjects(
+    name: String
+  ): [Subject]
+}

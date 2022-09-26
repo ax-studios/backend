@@ -1,22 +1,26 @@
-from api import app,db
-
-from ariadne import load_schema_from_path, make_executable_schema, \
-    graphql_sync, snake_case_fallback_resolvers, ObjectType
+from ariadne import (
+    ObjectType,
+    graphql_sync,
+    load_schema_from_path,
+    make_executable_schema,
+    snake_case_fallback_resolvers,
+)
 from ariadne.constants import PLAYGROUND_HTML
-from flask import request, jsonify
-import api
-from api.queries import resolve_students,resolve_tst
+from flask import jsonify, request
 
+import api
+from api import app, db
+from api.queries import resolve_getQueryResolver
 
 query = ObjectType("Query")
 
-query.set_field("students", resolve_students)
-query.set_field("tst", resolve_tst)
+query.set_field("getStudents", resolve_getQueryResolver)
+query.set_field("getTeachers", resolve_getQueryResolver)
+query.set_field("getClasses", resolve_getQueryResolver)
+query.set_field("getSubjects", resolve_getQueryResolver)
 
 type_defs = load_schema_from_path("./schema")
-schema = make_executable_schema(
-    type_defs, query, snake_case_fallback_resolvers
-)
+schema = make_executable_schema(type_defs, query, snake_case_fallback_resolvers)
 
 
 @app.route("/graphql", methods=["GET"])
@@ -28,12 +32,7 @@ def graphql_playground():
 def graphql_server():
     data = request.get_json()
 
-    success, result = graphql_sync(
-        schema,
-        data,
-        context_value=request,
-        debug=app.debug
-    )
+    success, result = graphql_sync(schema, data, context_value=request, debug=app.debug)
 
     status_code = 200 if success else 400
     return jsonify(result), status_code
