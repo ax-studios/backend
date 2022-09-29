@@ -47,6 +47,21 @@ class Student(User):
 
     class_ = db.relationship("Class", back_populates="students")
 
+    def __init__(self, **kwargs):
+        try:
+            self.enroll_no = kwargs.get("enroll_no")
+            self.class_id = kwargs.get("class_id")
+
+            kwargs.pop("enroll_no")
+            kwargs.pop("class_id")
+
+            kwargs["role"] = "student"
+
+        except KeyError as error:
+            pass
+
+        super().__init__(**kwargs)
+
     __mapper_args__ = {
         "polymorphic_identity": "students",
     }
@@ -55,9 +70,10 @@ class Student(User):
         parent_json = super().jsonify()
         parent_json.update(
             {
+                "__typename": "Student",
                 "enroll_no": self.enroll_no,
                 "class_": self.class_.jsonify(parents + [f"{self.__tablename__}"])
-                if "classes" not in parents
+                if "classes" not in parents and self.class_ is not None
                 else None,
             }
         )
@@ -90,10 +106,10 @@ class Teacher(User):
             lst.append(
                 {
                     "subject": subject_teacher.subject.jsonify(
-                        parents + [self.__tablename__, "classes","subjects"]
+                        parents + [self.__tablename__, "classes", "subjects"]
                     ),
                     "class_": class_.jsonify(
-                        parents + [self.__tablename__, "classes","subjects"]
+                        parents + [self.__tablename__, "classes", "subjects"]
                     ),
                 }
             )
@@ -104,6 +120,7 @@ class Teacher(User):
         parent_dict = super().jsonify()
         parent_dict.update(
             {
+                "__typename": "Teacher",
                 "class_subject": self.class_subject(parents)
                 if "classes" not in parents and "subjects" not in parents
                 else None

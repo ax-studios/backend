@@ -11,7 +11,7 @@ type Student implements User {
   mobileNo: String!
   # username: String
   enrollNo: String!
-  class_: Class!
+  class_: Class
 }
 
 type Teacher implements User {
