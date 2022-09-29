@@ -13,7 +13,7 @@ input newTeacher{
 } 
 
 input newClass {
-  name: String
+  name: String!
 }
 
 input newSubject {

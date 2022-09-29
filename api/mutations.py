@@ -10,7 +10,7 @@ from api import db
 
 
 @convert_kwargs_to_snake_case
-def resolve_createStudent(
+def resolve_createMutation(
     obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs
 ):
     try:
