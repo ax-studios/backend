@@ -1,4 +1,5 @@
 from email.policy import default
+from unicodedata import name
 from api.models.relation_tables import ClassToSubjectTeacher
 from app import db
 
@@ -26,6 +27,11 @@ class User(db.Model):
     # username = db.Column(String(80), unique=True, nullable=False)
     # password = db.Column(String(120), nullable=False)
 
+    def __init__(self, **kwargs):
+        kwargs["email"] = kwargs["email"].lower()
+        kwargs["mobile_no"] = kwargs["mobile_no"].lower()
+        super().__init__(**kwargs)
+
     # Connect child tables
     __mapper_args__ = {"polymorphic_identity": "users", "polymorphic_on": role}
 
@@ -48,18 +54,7 @@ class Student(User):
     class_ = db.relationship("Class", back_populates="students")
 
     def __init__(self, **kwargs):
-        try:
-            self.enroll_no = kwargs.get("enroll_no")
-            self.class_id = kwargs.get("class_id")
-
-            kwargs.pop("enroll_no")
-            kwargs.pop("class_id")
-
-            kwargs["role"] = "student"
-
-        except KeyError as error:
-            pass
-
+        kwargs["enroll_no"] = kwargs["enroll_no"].lower()
         super().__init__(**kwargs)
 
     __mapper_args__ = {
@@ -70,7 +65,6 @@ class Student(User):
         parent_json = super().jsonify()
         parent_json.update(
             {
-                "__typename": "Student",
                 "enroll_no": self.enroll_no,
                 "class_": self.class_.jsonify(parents + [f"{self.__tablename__}"])
                 if "classes" not in parents and self.class_ is not None
@@ -120,10 +114,9 @@ class Teacher(User):
         parent_dict = super().jsonify()
         parent_dict.update(
             {
-                "__typename": "Teacher",
                 "class_subject": self.class_subject(parents)
                 if "classes" not in parents and "subjects" not in parents
-                else None
+                else None,
             }
         )
         return parent_dict

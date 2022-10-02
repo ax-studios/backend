@@ -8,16 +8,19 @@ from constants import QUERY_NAME_TO_OBJECT
 @convert_kwargs_to_snake_case
 def resolve_getQuery(obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs):
     try:
-        conditions = {}
+        conditions = ()
 
         for key, value in kwargs.items():
             if value is not None:
-                conditions[key] = value.lower() if type(value) is str else value
+                conditions += (
+                    getattr(QUERY_NAME_TO_OBJECT[info.field_name], key).ilike(value),
+                )
+                # conditions[key] = value.lower() if type(value) is str else value
 
         objects = [
             object.jsonify([])
             for object in QUERY_NAME_TO_OBJECT.get(info.field_name)
-            .query.filter_by(**conditions)
+            .query.filter(*conditions)
             .all()
         ]
 

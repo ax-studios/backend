@@ -1,7 +1,3 @@
-import email
-import json
-from turtle import st
-from venv import create
 from app import db
 from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
 from api.models.classes import Class
@@ -72,15 +68,17 @@ pp = pprint.PrettyPrinter(indent=2)
 #     d.update({"subject":subject_teacher.subject.jsonify([])})
 #     d.update({"class_":class_.jsonify([])})
 #     lst.append(d.copy())
-    # pp.pprint(k.jsonify([]))
+# pp.pprint(k.jsonify([]))
 # tch=Teacher.query.filter_by(id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').first()
 # x= tch.class_subject(['teacher'])
 # for i in range(10):
-cls = Student.query.all()[1]
-pp.pprint(cls.jsonify([]))
+t = (Student.name.ilike("R%"), Student.enroll_no.like("21c22%"))
+cls = Student.query.filter(*t).all()
+# pp.pprint(cls)
+pp.pprint([i.jsonify([]) for i in cls])
 
 # subj= Subject.query.all()[0]
-print("a=\"Subject\"")
+print('a="Subject"')
 
 # print(json.dumps(x, indent=2))
 # print(x)

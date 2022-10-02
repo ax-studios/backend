@@ -57,29 +57,31 @@ contact_numbers = [
 
 # List of 10 random indian names
 t_names = [
-    "Kamal",
-    "Rahul",
-    "Raj",
-    "Rajesh",
-    "Ramesh",
-    "Ravi",
-    "Ravindra",
-    "Rohan",
-    "Ronak",
-    "Sachin",
+    "Kamal Sir",
+    "Rahul Sir",
+    "Raj Sir",
+    "Rajesh Sir",
+    "Ramesh Sir",
+    "Ravi Sir",
+    "Ravindra Sir",
+    "Rohan Sir",
+    "Ronak Sir",
+    "Sachin Sir",
 ]
 
 # List of 10 random contact numbers
-t_contact_numbers = ["9934567890",
-                     "9987654321",
-                     "9934567891",
-                     "9934567892",
-                     "9934567893",
-                     "9934567894",
-                     "9934567895",
-                     "9934567896",
-                     "9934567897",
-                     "9934567898",]
+t_contact_numbers = [
+    "9934567890",
+    "9987654321",
+    "9934567891",
+    "9934567892",
+    "9934567893",
+    "9934567894",
+    "9934567895",
+    "9934567896",
+    "9934567897",
+    "9934567898",
+]
 
 # List of 10 programming languages
 languages = [
@@ -95,18 +97,17 @@ languages = [
     "Ruby",
 ]
 
-email_addresses = [i+"@gmail.com" for i in s_names]
-enroll_numbers = ["21C220" + ("0" if i < 10 else "") + str(i)
-                  for i in range(1, 21)]
+email_addresses = [i + "@gmail.com" for i in s_names]
+enroll_numbers = ["21C220" + ("0" if i < 10 else "") + str(i) for i in range(1, 21)]
 
-t_email_addresses = [i+"@itmbu.ac.in" for i in s_names]
+t_email_addresses = [i + "@itmbu.ac.in" for i in s_names]
 
 # Create 2 classes
-class_1 = Class(name="AI".lower())
+class_1 = Class(name="AI")
 # class_1.students = []
 db.session.add(class_1)
 db.session.commit()
-class_2 = Class(name="CS".lower())
+class_2 = Class(name="CS")
 # class_2.students = []
 db.session.add(class_2)
 db.session.commit()
@@ -116,9 +117,9 @@ db.session.commit()
 for i in range(20):
     student = Student(
         name=s_names[i],
-        mobile_no=contact_numbers[i].lower(),
-        email=email_addresses[i].lower(),
-        enroll_no=enroll_numbers[i].lower(),
+        mobile_no=contact_numbers[i],
+        email=email_addresses[i],
+        enroll_no=enroll_numbers[i],
         class_id=random.choice([1, 2]),
     )
     db.session.add(student)
@@ -136,8 +137,8 @@ for i in range(10):
 for i in range(10):
     teacher = Teacher(
         name=t_names[i],
-        mobile_no=t_contact_numbers[i].lower(),
-        email=t_email_addresses[i].lower(),
+        mobile_no=t_contact_numbers[i],
+        email=t_email_addresses[i],
     )
     db.session.add(teacher)
     db.session.commit()
@@ -145,25 +146,52 @@ for i in range(10):
 # Create 20 subject_teacher relations
 for i in range(10):
     subject_teacher = SubjectTeacher(
-        subject_id=languages[i].id,
-        teacher_id=random.choice(Teacher.query.all()).id
+        subject_id=languages[i].id, teacher_id=random.choice(Teacher.query.all()).id
     )
     db.session.add(subject_teacher)
     db.session.commit()
 
-# Create 20 class_to_subject_teacher relations
-for i in range(4):
+# Create 8 class_to_subject_teacher relations
+for i in range(6):
     class_to_subject_teacher1 = ClassToSubjectTeacher(
         class_id=class_1.id,
-        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id
+        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id,
     )
     class_to_subject_teacher2 = ClassToSubjectTeacher(
         class_id=class_2.id,
-        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id
+        subject_teacher_id=random.choice(SubjectTeacher.query.all()).id,
     )
     db.session.add_all([class_to_subject_teacher1, class_to_subject_teacher2])
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
 
+# st1 = SubjectTeacher.query.all()[0].id
+
+# db.session.add(
+#     ClassToSubjectTeacher(
+#         class_id=class_1.id,
+#         subject_teacher_id=st1,
+#     )
+# )
+# db.session.commit()
+
+# db.session.add(
+#     ClassToSubjectTeacher(
+#         class_id=class_1.id,
+#         subject_teacher_id=st1,
+#     )
+# )
+# db.session.commit()
+
+# db.session.add(
+#     ClassToSubjectTeacher(
+#         class_id=class_1.id,
+#         subject_teacher_id=st1,
+#     )
+# )
+# db.session.commit()
 
 
 # for i in range(4):
@@ -174,4 +202,3 @@ for i in range(4):
 #     class_2.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
 #     db.session.add_all([class_2, class_1])
 #     db.session.commit()
-
