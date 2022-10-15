@@ -4,6 +4,7 @@ import graphql
 from ariadne import convert_kwargs_to_snake_case
 from constants import QUERY_NAME_TO_OBJECT
 from sqlalchemy.exc import IntegrityError
+from api.models import Student, Teacher, Class, Subject
 
 
 from api import db
@@ -30,3 +31,18 @@ def resolve_createMutation(
         return graphql.GraphQLError(err_details.strip())
 
     # TODO add an "except" to catch other exceptions
+
+
+@convert_kwargs_to_snake_case
+def resolve_updateStudents(obj, info, **kwargs):
+    print("###############################\nOK\n###############################")
+    changes_dict = kwargs.get("modifications")
+
+    x = Student.query.filter_by(enroll_no=kwargs["enroll_no"]).all()[0]
+
+    for key, value in changes_dict.items():
+        setattr(x, key, value)
+
+    db.session.commit()
+    print(kwargs)
+    return x.jsonify([])

@@ -1,0 +1,7 @@
+input modifiedStudent{
+    name: String
+    email: String
+    mobileNo: String
+    # username: String
+    class_id: ID 
+}
