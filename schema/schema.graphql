@@ -33,5 +33,6 @@ type Mutation {
     createSubject(subject: newSubject): Subject
 
     updateStudent(enroll_no:ID!, modifications:modifiedStudent):Student
+    updateTeacher(email:ID!, modifications:modifiedTeacher):Teacher
 }
 

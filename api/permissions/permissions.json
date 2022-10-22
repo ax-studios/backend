@@ -1,0 +1,21 @@
+{
+    "student": {
+        "self": {
+            "__all__": 1,
+            "email": 2
+        },
+        "other": {
+            "name": 1
+        }
+    },
+    "teacher": {
+        "class_": {
+            "__all__": 1,
+            "name": 1,
+            "students": {
+                "__all__": 1,
+                "name": 1
+            }
+        }
+    }
+}

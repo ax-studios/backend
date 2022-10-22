@@ -11,7 +11,7 @@ from flask import jsonify, request
 import api
 from api import app, db
 from api.queries import resolve_getQuery
-from api.mutations import resolve_createMutation,resolve_updateStudents
+from api.mutations import resolve_createMutation, resolve_updateMutation
 
 query = ObjectType("Query")
 
@@ -26,18 +26,14 @@ mutation.set_field("createTeacher", resolve_createMutation)
 mutation.set_field("createClass", resolve_createMutation)
 mutation.set_field("createSubject", resolve_createMutation)
 
-mutation.set_field(
-    "updateStudent",resolve_updateStudents
-)  # TODO implement it
+mutation.set_field("updateStudent", resolve_updateMutation)
+mutation.set_field("updateTeacher", resolve_updateMutation)
 
 type_defs = load_schema_from_path("./schema")
 schema = make_executable_schema(
     type_defs, [query, mutation], snake_case_fallback_resolvers
 )
 
-# with open("./sch_op.txt",'w+t') as f:
-#     f.write(schema)
-#     print("******************************************")
 
 @app.route("/graphql", methods=["GET"])
 def graphql_playground():

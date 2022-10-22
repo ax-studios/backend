@@ -7,11 +7,14 @@ QUERY_NAME_TO_OBJECT = {
     "getTeachers": Teacher,
     "getSubjects": Subject,
     # endregion
-    
     # region create queries
     "createStudent": Student,
     "createTeacher": Teacher,
     "createClass": Class,
     "createSubject": Subject,
+    # endregion
+    # region update queries
+    "updateStudent": Student,
+    "updateTeacher": Teacher,
     # endregion
 }
