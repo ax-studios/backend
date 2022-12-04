@@ -2,9 +2,11 @@ import datetime
 import random
 
 import pytz
+from sqlalchemy.orm.attributes import flag_modified
+
 from app import db
+from api.models import Class, Student, Subject, SubjectTeacher, Teacher, Todo, User
 from api.models.relation_tables import ClassToSubjectTeacher
-from api.models import Student, Class, Subject, SubjectTeacher, Teacher, User, Todo
 
 db.drop_all()
 db.create_all()
@@ -71,7 +73,7 @@ t_names = [
     "Sachin Sir",
 ]
 
-# List of 10 random contact numbers
+# List of 10 random contact numbersprimary
 t_contact_numbers = [
     "9934567890",
     "9987654321",
@@ -117,13 +119,19 @@ db.session.commit()
 
 # Create 20 students
 for i in range(20):
-    student = Student(
+    student = User(
         name=s_names[i],
         mobile_no=contact_numbers[i],
         email=email_addresses[i],
-        enroll_no=enroll_numbers[i],
-        class_id=random.choice([1, 2]),
         username=s_names[i].lower().replace(" ", "_") + "_" + str(i),
+    )
+    db.session.add(student)
+    db.session.commit()
+    # print("Added student", student.id, type(student.id))
+    student = Student(
+        id=student.id,
+        enroll_no=enroll_numbers[i],
+        class_=random.choice([class_1, class_2]),
     )
     db.session.add(student)
     db.session.commit()
@@ -138,12 +146,16 @@ for i in range(10):
 
 # Create 10 teachers
 for i in range(10):
-    teacher = Teacher(
+    teacher = User(
         name=t_names[i],
         mobile_no=t_contact_numbers[i],
         email=t_email_addresses[i],
         username=t_names[i].lower().replace(" ", "_") + "_" + str(i),
     )
+    db.session.add(teacher)
+    db.session.commit()
+
+    teacher = Teacher(id=teacher.id)
     db.session.add(teacher)
     db.session.commit()
 
@@ -221,3 +233,11 @@ for i in range(50):
 #     class_2.subject_teacher.append(SubjectTeacher.query.filter_by(id=random.randint(1, 20)).first())
 #     db.session.add_all([class_2, class_1])
 #     db.session.commit()
+
+# u = User.query.all()[0]
+# u.roles.append("admin")
+# flag_modified(u, "roles")
+# db.session.add(u)
+# db.session.commit()
+
+# print(u.roles, type(u.roles))

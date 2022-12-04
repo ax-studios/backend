@@ -18,7 +18,7 @@ class User(db.Model):
     name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     mobile_no = db.Column(db.String(15), unique=True, nullable=False)
-    role = db.Column(db.String(15), nullable=False)
+    roles = db.Column(psql.ARRAY(db.String(10)), default=[])
 
     todos = db.relationship("Todo", back_populates="owner")
 
@@ -31,9 +31,6 @@ class User(db.Model):
         kwargs["mobile_no"] = kwargs["mobile_no"].lower()
         super().__init__(**kwargs)
 
-    # Connect child tables
-    __mapper_args__ = {"polymorphic_identity": "users", "polymorphic_on": role}
-
     def jsonify(self, parents):
         return {
             "name": self.name,
@@ -44,83 +41,3 @@ class User(db.Model):
             if "todos" not in parents
             else None,
         }
-
-
-class Student(User):
-    __tablename__ = "students"
-
-    id = db.Column(psql.UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True)
-    enroll_no = db.Column(db.String(10), unique=True, nullable=False)
-    class_id = db.Column(db.Integer, db.ForeignKey("classes.id"))
-
-    class_ = db.relationship("Class", back_populates="students")
-
-    def __init__(self, **kwargs):
-        kwargs["enroll_no"] = kwargs["enroll_no"].lower()
-        super().__init__(**kwargs)
-
-    __mapper_args__ = {
-        "polymorphic_identity": "students",
-    }
-
-    def jsonify(self, parents):
-        parent_json = super().jsonify(parents)
-        parent_json.update(
-            {
-                "__typename": "Student",
-                "enroll_no": self.enroll_no,
-                "class_": self.class_.jsonify(parents + [f"{self.__tablename__}"])
-                if "classes" not in parents and self.class_ is not None
-                else None,
-            }
-        )
-        return parent_json
-
-
-class Teacher(User):
-    __tablename__ = "teachers"
-
-    id = db.Column(psql.UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True)
-
-    # subject_teacher = db.relationship('SubjectTeacher', secondary='subject_teacher', back_populates='teacher')
-
-    __mapper_args__ = {
-        "polymorphic_identity": "teachers",
-    }
-
-    def class_subject(self, parents=[]):
-        x = (
-            db.session.query(SubjectTeacher, Class)
-            .select_from(SubjectTeacher)
-            .join(Class.subject_teacher)
-            .filter_by(teacher_id=self.id)
-            .all()
-        )
-
-        lst = []
-        for subject_teacher, class_ in x:
-
-            lst.append(
-                {
-                    "subject": subject_teacher.subject.jsonify(
-                        parents + [self.__tablename__, "classes", "subjects"]
-                    ),
-                    "class_": class_.jsonify(
-                        parents + [self.__tablename__, "classes", "subjects"]
-                    ),
-                }
-            )
-
-        return lst
-
-    def jsonify(self, parents):
-        parent_dict = super().jsonify(parents)
-        parent_dict.update(
-            {
-                "__typename": "Teacher",
-                "class_subject": self.class_subject(parents)
-                if "classes" not in parents and "subjects" not in parents
-                else None,
-            }
-        )
-        return parent_dict
