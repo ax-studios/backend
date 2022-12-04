@@ -1,0 +1,21 @@
+type Teacher implements User {
+  name: String!
+  email: String
+  mobileNo: String!
+  username: String!
+  classSubject: [ClassSubject]
+  todos: [Todo!]
+}
+
+input newTeacher{
+    name: String!
+    email: String!
+    mobileNo: String!
+} 
+
+input modifiedTeacher{
+    name: String
+    email: String
+    mobileNo: String
+    class_id: ID 
+}

@@ -1,6 +1,3 @@
-from email.policy import default
-from unicodedata import name
-from api.models.relation_tables import ClassToSubjectTeacher
 from app import db
 
 from ..models import SubjectTeacher, Class
@@ -23,8 +20,10 @@ class User(db.Model):
     mobile_no = db.Column(db.String(15), unique=True, nullable=False)
     role = db.Column(db.String(15), nullable=False)
 
+    todos = db.relationship("Todo", back_populates="owner")
+
     # Login info
-    # username = db.Column(String(80), unique=True, nullable=False)
+    username = db.Column(String(80), unique=True, nullable=False)
     # password = db.Column(String(120), nullable=False)
 
     def __init__(self, **kwargs):
@@ -35,19 +34,22 @@ class User(db.Model):
     # Connect child tables
     __mapper_args__ = {"polymorphic_identity": "users", "polymorphic_on": role}
 
-    def jsonify(self):
+    def jsonify(self, parents):
         return {
             "name": self.name,
             "mobile_no": self.mobile_no,
-            "email": self.email
-            # "username": self.username,
+            "email": self.email,
+            "username": self.username,
+            "todos": [todo.jsonify(["users"]) for todo in self.todos]
+            if "todos" not in parents
+            else None,
         }
 
 
 class Student(User):
     __tablename__ = "students"
 
-    id = db.Column(psql.UUID, db.ForeignKey("users.id"), primary_key=True)
+    id = db.Column(psql.UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True)
     enroll_no = db.Column(db.String(10), unique=True, nullable=False)
     class_id = db.Column(db.Integer, db.ForeignKey("classes.id"))
 
@@ -62,9 +64,10 @@ class Student(User):
     }
 
     def jsonify(self, parents):
-        parent_json = super().jsonify()
+        parent_json = super().jsonify(parents)
         parent_json.update(
             {
+                "__typename": "Student",
                 "enroll_no": self.enroll_no,
                 "class_": self.class_.jsonify(parents + [f"{self.__tablename__}"])
                 if "classes" not in parents and self.class_ is not None
@@ -77,7 +80,7 @@ class Student(User):
 class Teacher(User):
     __tablename__ = "teachers"
 
-    id = db.Column(psql.UUID, db.ForeignKey("users.id"), primary_key=True)
+    id = db.Column(psql.UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True)
 
     # subject_teacher = db.relationship('SubjectTeacher', secondary='subject_teacher', back_populates='teacher')
 
@@ -111,9 +114,10 @@ class Teacher(User):
         return lst
 
     def jsonify(self, parents):
-        parent_dict = super().jsonify()
+        parent_dict = super().jsonify(parents)
         parent_dict.update(
             {
+                "__typename": "Teacher",
                 "class_subject": self.class_subject(parents)
                 if "classes" not in parents and "subjects" not in parents
                 else None,

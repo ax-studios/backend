@@ -1,0 +1,22 @@
+type Todo{
+  id: ID!
+  title: String!
+  description: String!
+  priority: Int!
+  dueDate: String!
+  owner: User
+}
+
+input newTodo{
+  title: String!
+  description: String!
+  priority: Int!
+  dueDate: String!
+}
+
+input modifiedTodo{
+  title: String
+  description: String
+  priority: Int
+  dueDate: String
+}

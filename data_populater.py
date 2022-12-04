@@ -1,8 +1,10 @@
-import pprint
+import datetime
 import random
+
+import pytz
 from app import db
 from api.models.relation_tables import ClassToSubjectTeacher
-from api.models import Student, Class, Subject, SubjectTeacher, Teacher
+from api.models import Student, Class, Subject, SubjectTeacher, Teacher, User, Todo
 
 db.drop_all()
 db.create_all()
@@ -121,6 +123,7 @@ for i in range(20):
         email=email_addresses[i],
         enroll_no=enroll_numbers[i],
         class_id=random.choice([1, 2]),
+        username=s_names[i].lower().replace(" ", "_") + "_" + str(i),
     )
     db.session.add(student)
     db.session.commit()
@@ -139,6 +142,7 @@ for i in range(10):
         name=t_names[i],
         mobile_no=t_contact_numbers[i],
         email=t_email_addresses[i],
+        username=t_names[i].lower().replace(" ", "_") + "_" + str(i),
     )
     db.session.add(teacher)
     db.session.commit()
@@ -166,6 +170,21 @@ for i in range(6):
         db.session.commit()
     except:
         db.session.rollback()
+
+# Create 50 todos
+for i in range(50):
+    todo = Todo(
+        title="Todo " + str(i + 1),
+        description="This is a description for todo " + str(i + 1),
+        priority=random.choice([1, 2, 3]),
+        due_date=pytz.UTC.normalize(
+            datetime.datetime.now(tz=pytz.timezone("Asia/Kolkata"))
+            + datetime.timedelta(days=random.randint(1, 20))
+        ),
+        owner_id=random.choice(User.query.all()).id,
+    )
+    db.session.add(todo)
+    db.session.commit()
 
 # st1 = SubjectTeacher.query.all()[0].id
 

@@ -1,0 +1,64 @@
+# interface User {
+#   name: String!
+#   email: String
+#   mobileNo: String!
+#   username: String!
+#   todos: [Todo!]
+# }
+
+# type Student implements User {
+#   name: String!
+#   email: String:
+#   mobileNo: String!
+#   username: String!
+#   enrollNo: String!
+#   class_: Class
+#   todos: [Todo!]
+# }
+
+# type Teacher implements User {
+#   name: String!
+#   email: String
+#   mobileNo: String!
+#   username: String!
+#   classSubject: [ClassSubject]
+#   todos: [Todo!]
+# }
+
+# type Class {
+#   id: ID!
+#   name: String
+#   subjectTeacher: [SubjectTeacher]
+#   students: [Student]
+# }
+
+# type Subject {
+#   id: ID!
+#   name: String!
+#   classTeacher: [ClassTeacher]
+# }
+
+# type Todo{
+#   id: ID!
+#   title: String!
+#   description: String!
+#   priority: Int!
+#   dueDate: String!
+#   tzName: String!
+#   owner: User
+# }
+
+type SubjectTeacher {
+  subject: Subject
+  teacher: Teacher
+}
+
+type ClassSubject {
+  class_: Class
+  subject: Subject
+}
+
+type ClassTeacher {
+  class_: Class
+  teacher: Teacher
+}

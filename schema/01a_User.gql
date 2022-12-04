@@ -1,0 +1,8 @@
+interface User {
+  name: String!
+  email: String
+  mobileNo: String!
+  username: String!
+  todos: [Todo!]
+}
+

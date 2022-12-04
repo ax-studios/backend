@@ -132,3 +132,9 @@ dmypy.json
 *.db
 *.db.old
 zdev_cache/
+*.code-workspace
+.vscode/
+.gitignore
+op.py
+op.txt
+tst.py
