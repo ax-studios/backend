@@ -1,25 +1,22 @@
-type Student implements User {
+type Student implements BaseUser {
   name: String!
-  email: String
+  email: String!
   mobileNo: String!
   username: String!
   enrollNo: String!
   class_: Class
   todos: [Todo!]
+  roles: [Roles!]
 }
 
 input newStudent{
     enrollNo: String!
-    name: String!
-    email: String!
-    mobileNo: String!
-    username: String!
 }
 
 input modifiedStudent{
     name: String
     email: String
     mobileNo: String
-    class_id: ID 
+    class_id: ID
 }
 

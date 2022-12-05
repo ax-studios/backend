@@ -26,10 +26,13 @@ class User(db.Model):
     username = db.Column(String(80), unique=True, nullable=False)
     # password = db.Column(String(120), nullable=False)
 
+    user_only_attrs = ["name", "email", "mobile_no", "username"]
+    
     def __init__(self, **kwargs):
         kwargs["email"] = kwargs["email"].lower()
         kwargs["mobile_no"] = kwargs["mobile_no"].lower()
         super().__init__(**kwargs)
+        print(self.__dict__)
 
     def jsonify(self, parents):
         return {
@@ -37,6 +40,7 @@ class User(db.Model):
             "mobile_no": self.mobile_no,
             "email": self.email,
             "username": self.username,
+            "roles": self.roles,
             "todos": [todo.jsonify(["users"]) for todo in self.todos]
             if "todos" not in parents
             else None,

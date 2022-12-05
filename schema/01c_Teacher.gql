@@ -1,21 +1,21 @@
-type Teacher implements User {
+type Teacher implements BaseUser {
   name: String!
-  email: String
+  email: String!
   mobileNo: String!
   username: String!
   classSubject: [ClassSubject]
   todos: [Todo!]
+  roles: [Roles!]
+  employeeId: String!
 }
 
 input newTeacher{
-    name: String!
-    email: String!
-    mobileNo: String!
-} 
+  employeeId: String!
+}
 
 input modifiedTeacher{
-    name: String
-    email: String
-    mobileNo: String
-    class_id: ID 
+  name: String
+  email: String
+  mobileNo: String
+  class_id: ID
 }

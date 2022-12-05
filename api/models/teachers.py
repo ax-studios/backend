@@ -12,6 +12,7 @@ class Teacher(db.Model):
     __tablename__ = "teachers"
 
     id = db.Column(psql.UUID(as_uuid=True), db.ForeignKey("users.id"), primary_key=True)
+    employee_id = db.Column(db.String(10), unique=True, nullable=False)
 
     def __init__(self, **kwargs):
         try:
@@ -24,7 +25,6 @@ class Teacher(db.Model):
 
             flag_modified(user, "roles")
             user.roles.append("teacher")
-            db.session.commit()
 
         except Exception as e:
             db.session.rollback()
@@ -61,6 +61,7 @@ class Teacher(db.Model):
         parent_dict = User.query.filter_by(id=self.id).first().jsonify(parents)
         parent_dict.update(
             {
+                "employee_id": self.employee_id,
                 "class_subject": self.class_subject(parents)
                 if "classes" not in parents and "subjects" not in parents
                 else None,

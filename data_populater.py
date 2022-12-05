@@ -155,7 +155,10 @@ for i in range(10):
     db.session.add(teacher)
     db.session.commit()
 
-    teacher = Teacher(id=teacher.id)
+    teacher = Teacher(
+        id=teacher.id,
+        employee_id="ITM" + str(i),
+    )
     db.session.add(teacher)
     db.session.commit()
 

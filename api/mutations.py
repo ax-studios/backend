@@ -10,7 +10,7 @@ from api.models import Class, Student, Subject, Teacher
 from api.models.todos import Todo
 from api.models.users import User
 import api.utilities as utils
-from constants import QUERY_NAME_TO_OBJECT
+from api.constants import QUERY_NAME_TO_OBJECT
 
 
 @convert_kwargs_to_snake_case
@@ -132,7 +132,9 @@ def resolve_updateTodo(obj, info: graphql.type.definition.GraphQLResolveInfo, **
             )
             changes_dict["due_date"] = date
     except ValueError as ve:
-        return graphql.GraphQLError("Error: Date format must be YYYY-MM-DDTHH:MM:SS.MSZ")
+        return graphql.GraphQLError(
+            "Error: Date format must be YYYY-MM-DDTHH:MM:SS.MSZ"
+        )
 
     for key, value in changes_dict.items():
         setattr(todo, key, value)
@@ -149,3 +151,44 @@ def resolve_updateTodo(obj, info: graphql.type.definition.GraphQLResolveInfo, **
         raise graphql.GraphQLError(f"Unknown error {e.args}")
 
     return todo.jsonify([])
+
+
+@convert_kwargs_to_snake_case
+def resolve_assignRole(obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs):
+
+    user = User.query.filter_by(username=kwargs.get("username")).first()
+    if user is None:
+        raise graphql.GraphQLError("User not found.")
+
+    try:
+        if kwargs.get("teacher") is not None:
+            new_teacher = Teacher(
+                id=user.id,
+                employee_id=kwargs.get("teacher").get("employee_id"),
+            )
+            db.session.add(new_teacher)
+
+        elif kwargs.get("student") is not None:
+            new_student = Student(
+                id=user.id,
+                enroll_no=kwargs.get("student").get("enroll_no"),
+            )
+            db.session.add(new_student)
+
+        else:
+            raise graphql.GraphQLError("Invalid role.")
+
+    except Exception as e:
+        raise graphql.GraphQLError(f"Unknown error {e.args}")
+
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        handle(e)
+
+    except Exception as e:
+        db.session.rollback()
+        raise graphql.GraphQLError(f"Unknown error {e.args}")
+
+    return user.jsonify([])

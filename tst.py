@@ -1,11 +1,23 @@
-import api
-from api import db
-from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
-from api.models.classes import Class
-from api.models.users import Student, Teacher, User
-from api.models.subjects import Subject
-from api.models.todos import Todo
+# import api
+# from api import db
+# from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
+# from api.models.classes import Class
+# from api.models.users import User
+# from api.models.teachers import Teacher
+# from api.models.students import Student
+# from api.models.subjects import Subject
+# from api.models.todos import Todo
 import pprint
+
+import datetime
+import random
+
+import pytz
+from sqlalchemy.orm.attributes import flag_modified
+
+from app import db
+from api.models import Class, Student, Subject, SubjectTeacher, Teacher, Todo, User
+from api.models.relation_tables import ClassToSubjectTeacher
 
 
 # db.drop_all()
@@ -89,11 +101,11 @@ pp = pprint.PrettyPrinter(indent=2)
 # pp.pprint(Todos.query.all()[0].jsonify([]))
 # pp.pprint(Student.query.all()[0].jsonify([]))
 
-x = Todo.query.filter(Todo.title.like('Todo 512%')).all()
-x= Todo.query.join(User).filter(User.name.ilike('saNdeep%')).all()
+# x = Todo.query.filter(Todo.title.like('Todo 512%')).all()
+# x= Todo.query.join(User).filter(User.name.ilike('saNdeep%')).all()
 
-for i in x:
-    print(i.jsonify([]))
+# for i in x:
+#     print(i.jsonify([]))
 
 # u1 = User(
 #     name="Sandeep ext",
@@ -118,3 +130,8 @@ for i in x:
 #             .all())
 
 # .filter_by(teacher_id='abe5ead6-0378-44c7-96be-1553e3692d69')
+
+x = User.query.all()[0]
+pp.pprint(x.__dict__)
+print(User.user_only_attrs)
+# pp.pprint(x.jsonify([]))

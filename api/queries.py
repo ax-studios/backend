@@ -4,8 +4,8 @@ import graphql
 from ariadne import convert_kwargs_to_snake_case
 import werkzeug
 from api import auth
-from constants import QUERY_NAME_TO_OBJECT
-from api.models import Todo, User
+from api.constants import QUERY_NAME_TO_OBJECT
+from api.models import Todo, User, Student, Teacher
 import api.utilities as utils
 
 
@@ -62,3 +62,69 @@ def resolveGetTodo(
     except Exception as error:
         traceback.print_tb(error.__traceback__)
         return graphql.GraphQLError("Some error occured !!")
+
+
+@convert_kwargs_to_snake_case
+def resolve_getStudent(
+    obj,
+    info: graphql.type.definition.GraphQLResolveInfo,
+    username: str = None,
+    enroll_no: str = None,
+    email: str = None,
+):
+    try:
+        if username is not None:
+            return [
+                i.jsonify([])
+                for i in Student.query.join(User)
+                .filter(User.username.ilike(username))
+                .all()
+            ]
+
+        if enroll_no is not None:
+            return [
+                i.jsonify([])
+                for i in Student.query.filter_by(enroll_no=enroll_no).all()
+            ]
+
+        if email is not None:
+            return [
+                i.jsonify([])
+                for i in Student.query.join(User).filter(User.email.ilike(email)).all()
+            ]
+
+        return [i.jsonify([]) for i in Student.query.all()]
+
+    except Exception as error:
+        traceback.print_tb(error.__traceback__)
+        return graphql.GraphQLError("Some error occured !!")
+
+
+@convert_kwargs_to_snake_case
+def resolve_getTeacher(
+    obj,
+    info: graphql.type.definition.GraphQLResolveInfo,
+    username: str = None,
+    email: str = None,
+):
+    try:
+        if username is not None:
+            return [
+                i.jsonify([])
+                for i in Teacher.query.join(User)
+                .filter(User.username.ilike(username))
+                .all()
+            ]
+
+        if email is not None:
+            return [
+                i.jsonify([])
+                for i in Teacher.query.join(User).filter(User.email.ilike(email)).all()
+            ]
+
+        return [i.jsonify([]) for i in Teacher.query.all()]
+
+    except Exception as error:
+        traceback.print_tb(error.__traceback__)
+        return graphql.GraphQLError("Some error occured !!")
+

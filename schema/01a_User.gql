@@ -1,8 +1,31 @@
-interface User {
+interface BaseUser {
+  name: String!
+  email: String!
+  mobileNo: String!
+  username: String!
+  todos: [Todo!]
+  roles: [Roles!]
+}
+
+type User{
   name: String!
   email: String
   mobileNo: String!
   username: String!
   todos: [Todo!]
+  roles: [Roles!]
 }
 
+input newUser {
+  name: String!
+  email: String!
+  mobileNo: String!
+  username: String!
+}
+
+input modifiedUser {
+  name: String
+  email: String
+  mobileNo: String
+  username: String
+}

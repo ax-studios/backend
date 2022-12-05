@@ -30,7 +30,6 @@ class Student(db.Model):
 
             flag_modified(user, "roles")
             user.roles.append("student")
-            db.session.commit()
 
         except Exception as e:
             db.session.rollback()
