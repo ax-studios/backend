@@ -13,6 +13,7 @@ import api.utilities as utils
 from api.constants import QUERY_NAME_TO_OBJECT
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_createMutation(
     obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs
@@ -36,6 +37,7 @@ def resolve_createMutation(
     return new_obj.jsonify([])
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_createTodo(
     obj,
@@ -77,6 +79,7 @@ def resolve_createTodo(
         raise graphql.GraphQLError(f"Unknown error {e.args}")
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_updateMutation(
     obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs
@@ -108,6 +111,7 @@ def resolve_updateMutation(
     return x.jsonify([])
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_updateTodo(obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs):
 
@@ -153,6 +157,7 @@ def resolve_updateTodo(obj, info: graphql.type.definition.GraphQLResolveInfo, **
     return todo.jsonify([])
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_assignRole(obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs):
 

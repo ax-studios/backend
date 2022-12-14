@@ -9,6 +9,7 @@ from api.models import Todo, User, Student, Teacher
 import api.utilities as utils
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_getQuery(obj, info: graphql.type.definition.GraphQLResolveInfo, **kwargs):
     try:
@@ -35,6 +36,7 @@ def resolve_getQuery(obj, info: graphql.type.definition.GraphQLResolveInfo, **kw
         return graphql.GraphQLError("Some error occured !!")
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolveGetTodo(
     obj,
@@ -64,6 +66,7 @@ def resolveGetTodo(
         return graphql.GraphQLError("Some error occured !!")
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_getStudent(
     obj,
@@ -100,6 +103,7 @@ def resolve_getStudent(
         return graphql.GraphQLError("Some error occured !!")
 
 
+@auth.authenticate_user
 @convert_kwargs_to_snake_case
 def resolve_getTeacher(
     obj,
@@ -127,4 +131,3 @@ def resolve_getTeacher(
     except Exception as error:
         traceback.print_tb(error.__traceback__)
         return graphql.GraphQLError("Some error occured !!")
-
