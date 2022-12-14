@@ -1,0 +1,10 @@
+type Class {
+  id: ID!
+  name: String
+  subjectTeacher: [SubjectTeacher]
+  students: [Student]
+}
+
+input newClass {
+  name: String!
+}

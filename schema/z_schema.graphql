@@ -1,0 +1,57 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  getUsers(
+    username: String,
+    email: String,
+  ): [User]
+
+  getStudents(
+    enrollNo: String,
+    email: String,
+    username: String,
+  ): [Student]
+
+  getTeachers(
+    email: String,
+    username: String,
+  ): [Teacher]
+
+  getClasses(
+    name: String
+  ): [Class]
+
+  getSubjects(
+    name: String
+  ): [Subject]
+
+  getTodos(
+    username: String,
+    todo_id: ID
+  ): [Todo]
+}
+
+
+type Mutation {
+  createUser(user: newUser): User
+  createStudent(student: newStudent!): Student
+  createTeacher(teacher: newTeacher!): Teacher
+  createClass(class: newClass!): Class
+  createSubject(subject: newSubject!): Subject
+  createTodo(todo: newTodo!): Todo
+
+  updateUser(username:ID!, modifications: modifiedUser!): User
+  updateStudent(enroll_no:ID!, modifications:modifiedStudent!):Student
+  updateTeacher(email:ID!, modifications:modifiedTeacher!):Teacher
+  updateTodo(id:ID!, modifications:modifiedTodo!):Todo
+
+  assignRole(
+    username:ID!,
+    student: newStudent,
+    teacher: newTeacher,
+  ): User
+}
+

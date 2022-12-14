@@ -1,7 +1,5 @@
-from app import db, api
+from app import db
 from sqlalchemy import *
-import sqlalchemy.dialects.postgresql as psql
-import uuid
 
 
 class Class(db.Model):

@@ -1,0 +1,14 @@
+type SubjectTeacher {
+  subject: Subject
+  teacher: Teacher
+}
+
+type ClassSubject {
+  class_: Class
+  subject: Subject
+}
+
+type ClassTeacher {
+  class_: Class
+  teacher: Teacher
+}

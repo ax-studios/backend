@@ -1,13 +1,23 @@
-import email
-import json
-from turtle import st
-from venv import create
-from app import db
-from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
-from api.models.classes import Class
-from api.models.users import Student, Teacher
-from api.models.subjects import Subject
+# import api
+# from api import db
+# from api.models.relation_tables import ClassToSubjectTeacher, SubjectTeacher
+# from api.models.classes import Class
+# from api.models.users import User
+# from api.models.teachers import Teacher
+# from api.models.students import Student
+# from api.models.subjects import Subject
+# from api.models.todos import Todo
 import pprint
+
+import datetime
+import random
+
+import pytz
+from sqlalchemy.orm.attributes import flag_modified
+
+from app import db
+from api.models import Class, Student, Subject, SubjectTeacher, Teacher, Todo, User
+from api.models.relation_tables import ClassToSubjectTeacher
 
 
 # db.drop_all()
@@ -72,15 +82,56 @@ pp = pprint.PrettyPrinter(indent=2)
 #     d.update({"subject":subject_teacher.subject.jsonify([])})
 #     d.update({"class_":class_.jsonify([])})
 #     lst.append(d.copy())
-    # pp.pprint(k.jsonify([]))
+# pp.pprint(k.jsonify([]))
 # tch=Teacher.query.filter_by(id='302eb2a6-a3ec-482a-b98d-98d6698aa68a').first()
 # x= tch.class_subject(['teacher'])
 # for i in range(10):
-cls = Student.query.all()[1]
-pp.pprint(cls.jsonify([]))
+# t = (Student.name.ilike("R%"), Student.enroll_no.like("21c22%"))
+# cls = Student.query.filter(*t).all()
+# # pp.pprint(cls)
+# pp.pprint([i.jsonify([]) for i in cls])
 
-# subj= Subject.query.all()[0]
-print("a=\"Subject\"")
+# # subj= Subject.query.all()[0]
+# print('a="Subject"')
 
-# print(json.dumps(x, indent=2))
-# print(x)
+# # print(json.dumps(x, indent=2))
+# # print(x)
+
+
+# pp.pprint(Todos.query.all()[0].jsonify([]))
+# pp.pprint(Student.query.all()[0].jsonify([]))
+
+# x = Todo.query.filter(Todo.title.like('Todo 512%')).all()
+# x= Todo.query.join(User).filter(User.name.ilike('saNdeep%')).all()
+
+# for i in x:
+#     print(i.jsonify([]))
+
+# u1 = User(
+#     name="Sandeep ext",
+#     email="sandeep_ext@gmail.com",
+#     mobile_no="8999899834",
+#     role="Student",
+#     username="sandeep_89",
+#     enroll_no="21C22001"
+# )
+
+# # add user u1 to db
+# db.session.add(u1)
+# db.session.commit()
+
+
+# pp.pprint(x.jsonify([]))
+
+# pp.pprint(db.session.query(SubjectTeacher, Class)
+#             .select_from(SubjectTeacher)
+#             .join(Class.subject_teacher)
+#             .filter_by(teacher_id='0169c7a1-a559-4b69-9ea4-18957cf22a01')
+#             .all())
+
+# .filter_by(teacher_id='abe5ead6-0378-44c7-96be-1553e3692d69')
+
+x = User.query.all()[0]
+pp.pprint(x.__dict__)
+print(User.user_only_attrs)
+# pp.pprint(x.jsonify([]))

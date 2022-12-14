@@ -1,0 +1,40 @@
+
+input newStudent{
+    enrollNo: String!
+    name: String!
+    email: String!
+    mobileNo: String!
+} 
+
+input newTeacher{
+    name: String!
+    email: String!
+    mobileNo: String!
+} 
+
+input newClass {
+  name: String!
+}
+
+input newSubject {
+  name: String!
+}
+
+input updatedStudent{
+    name: String
+    email: String
+    mobileNo: String
+    # # username: String
+    class_id: ID
+}
+
+type Mutation {
+    createStudent(student: newStudent): Student
+    createTeacher(teacher: newTeacher): Teacher
+    createClass(class: newClass): Class
+    createSubject(subject: newSubject): Subject
+
+    updateStudent(id:ID!, s:updatedStudent):Student
+}
+
+
