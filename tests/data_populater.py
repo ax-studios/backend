@@ -4,9 +4,17 @@ import random
 import pytz
 from sqlalchemy.orm.attributes import flag_modified
 
-from app import db
-from api.models import Class, Student, Subject, SubjectTeacher, Teacher, Todo, User
-from api.models.relation_tables import ClassToSubjectTeacher
+from lms_backend.app import db
+from lms_backend.api.models import (
+    Class,
+    Student,
+    Subject,
+    SubjectTeacher,
+    Teacher,
+    Todo,
+    User,
+)
+from lms_backend.api.models.relation_tables import ClassToSubjectTeacher
 
 db.drop_all()
 db.create_all()
