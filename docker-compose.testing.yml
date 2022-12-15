@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./lms_backend
+      dockerfile: Dockerfile.testing
+
+    command: python3 main.py run -h 0.0.0.0 -p 5000
+
+    volumes:
+      - ./lms_backend:/usr/src/app/
+    ports:
+      - 5000:5000
+
+    env_file:
+      - ./.api_env.testing.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data_testing:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=ax_lms_testing
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=ax_lms_testing_db
+
+volumes:
+  postgres_data_testing:
