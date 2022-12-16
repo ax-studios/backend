@@ -1,4 +1,4 @@
-from psycopg2.errors import *
+from psycopg2.errors import UniqueViolation
 import psycopg2
 import graphql
 

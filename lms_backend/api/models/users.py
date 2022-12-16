@@ -1,7 +1,6 @@
 from app import db
 
-from ..models import SubjectTeacher, Class
-from sqlalchemy import *
+from sqlalchemy import String
 
 import sqlalchemy.dialects.postgresql as psql
 
@@ -27,7 +26,7 @@ class User(db.Model):
     # password = db.Column(String(120), nullable=False)
 
     user_only_attrs = ["name", "email", "mobile_no", "username"]
-    
+
     def __init__(self, **kwargs):
         kwargs["email"] = kwargs["email"].lower()
         kwargs["mobile_no"] = kwargs["mobile_no"].lower()

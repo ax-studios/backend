@@ -1,5 +1,4 @@
 from app import db
-from sqlalchemy import *
 
 
 class Class(db.Model):

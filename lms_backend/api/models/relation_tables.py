@@ -1,5 +1,5 @@
 from app import db, api
-from sqlalchemy import *
+from sqlalchemy import ForeignKey, UniqueConstraint
 import sqlalchemy.dialects.postgresql as psql
 
 

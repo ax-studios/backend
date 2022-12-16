@@ -1,7 +1,7 @@
 import pytz
 from api.models.users import User
 from app import db
-from sqlalchemy import *
+from sqlalchemy import ForeignKey
 import sqlalchemy.dialects.postgresql as psql
 import uuid
 

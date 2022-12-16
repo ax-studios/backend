@@ -1,5 +1,4 @@
 import sqlalchemy.dialects.postgresql as psql
-from sqlalchemy import *
 from sqlalchemy.orm.attributes import flag_modified
 
 from api.models.users import User
