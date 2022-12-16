@@ -7,7 +7,3 @@ build_image:
   script:
     - docker build -t lms_backend:test-1.0 -f ./lms_backend/Dockerfile.testing ./lms_backend
     - docker push $CI_REGISTRY_IMAGE/lms_backend:test-1.0
-
-@cli.command("populate_db")
-def populate_db():
-    import tests.data_populater as data_populater
