@@ -1,4 +1,5 @@
 build_image:
+  when: manual
   image: docker:20.10.1
   services:
     - docker:20.10.1-dind
