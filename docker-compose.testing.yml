@@ -5,11 +5,12 @@ services:
     build:
       context: ./lms_backend
       dockerfile: Dockerfile.testing
-
+    # # image: ax-studios-with-docker-web:latest
+    # image: registry.gitlab.com/tirth-bhagwat/backend:latest
     command: python3 main.py run -h 0.0.0.0 -p 5000
 
-    volumes:
-      - ./lms_backend:/usr/src/app/
+    # volumes:
+    #   - ./lms_backend:/usr/src/app/
     ports:
       - 5000:5000
 

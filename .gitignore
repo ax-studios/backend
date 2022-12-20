@@ -134,3 +134,5 @@ zdev_cache/
 .vscode/
 .gitignore
 sample_keys
+.api_env.env
+.db_env.env

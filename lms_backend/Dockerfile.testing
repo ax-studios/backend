@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y netcat
 
 # install dependencies
 RUN pip install --upgrade pip
-RUN apt-get -y install libpq-dev gcc
+RUN apt-get -y install libpq-dev gcc build-essential libssl-dev libffi-dev python-dev
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
