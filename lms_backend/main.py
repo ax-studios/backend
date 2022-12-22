@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, logger
 from flask.cli import FlaskGroup
 
 cli = FlaskGroup(app)
@@ -6,11 +6,10 @@ cli = FlaskGroup(app)
 
 @cli.command("create_db")
 def create_db():
-    db.create_all()
-    print("Database created!")
-
-    # populate_db()
-    print("Database populated with sample data!")
+    with app.app_context():
+        db.create_all()
+        logger.error("Database created")
+    logger.error("Database populated with sample data!")
 
 
 if __name__ == "__main__":

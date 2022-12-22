@@ -8,6 +8,7 @@ services:
     # # image: ax-studios-with-docker-web:latest
     # image: registry.gitlab.com/tirth-bhagwat/backend:latest
     command: python3 main.py run -h 0.0.0.0 -p 5000
+    # command: gunicorn --config ./gunicorn.conf.testing.py main:app
 
     # volumes:
     #   - ./lms_backend:/usr/src/app/

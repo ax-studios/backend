@@ -12,7 +12,7 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import jsonify, request
 
 import api
-from api import app, db
+from api import app, db, logger
 from api.mutations import (
     resolve_assignRole,
     resolve_createMutation,

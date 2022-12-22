@@ -51,6 +51,7 @@ WORKDIR $APP_HOME
 
 # install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends netcat
+RUN apt-get -y install libpq-dev gcc build-essential libssl-dev libffi-dev python-dev
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
@@ -70,4 +71,4 @@ USER app
 
 
 # run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/entrypoint.sh"]
+ENTRYPOINT ["/home/app/lms_backend/entrypoint.sh"]
