@@ -1,0 +1,11 @@
+build_image:
+  when: manual
+  image: docker:20.10.1
+  services:
+    - docker:20.10.1-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build -t lms_backend:test-1.0 -f ./lms_backend/Dockerfile.testing ./lms_backend
+    - docker tag lms_backend:test-1.0 $CI_REGISTRY_IMAGE/lms_backend:test-1.0
+    - docker push $CI_REGISTRY_IMAGE/lms_backend:test-1.0

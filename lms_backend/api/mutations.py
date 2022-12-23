@@ -56,7 +56,7 @@ def resolve_createTodo(
 
         try:
             date = datetime.strptime(todo.get("due_date"), r"%Y-%m-%dT%H:%M:%S.%fZ")
-        except ValueError as ve:
+        except ValueError:
             return graphql.GraphQLError(
                 "Error: Date format must be YYYY-MM-DDTHH:MM:SS.MSZ"
             )
@@ -135,7 +135,7 @@ def resolve_updateTodo(obj, info: graphql.type.definition.GraphQLResolveInfo, **
                 changes_dict.get("due_date"), r"%Y-%m-%dT%H:%M:%S.%fZ"
             )
             changes_dict["due_date"] = date
-    except ValueError as ve:
+    except ValueError:
         return graphql.GraphQLError(
             "Error: Date format must be YYYY-MM-DDTHH:MM:SS.MSZ"
         )

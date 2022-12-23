@@ -3,6 +3,7 @@ from werkzeug.datastructures import EnvironHeaders
 import graphql
 import bcrypt
 import os
+from api import logger
 
 # os.getenv("name", "default value")
 
@@ -35,23 +36,23 @@ def authorize_user(info: graphql.type.definition.GraphQLResolveInfo):
 # create decorator authenticate_user to use in resolvers
 def authenticate_user(func):
     def wrapper(*args, **kwargs):
-        print("authenticate_user *****************************************")
-        print(args)
-        print(kwargs)
-        print("authenticate_user *****************************************")
+        logger.error("authenticate_user *****************************************")
+        logger.error(args)
+        logger.error(kwargs)
+        logger.error("authenticate_user *****************************************")
 
         info: graphql.type.definition.GraphQLResolveInfo = args[1]
 
         request: EnvironHeaders = info.context.headers
         environment: dict = request.environ
 
-        print(environment)
+        logger.error(environment)
 
         if environment.get("HTTP_JWT") is None:
             raise graphql.GraphQLError("User not logged in.")
 
         auth_token = environment.get("HTTP_JWT")
-        tmp_token = environment.get("HTTP_TMP_TOKEN")
+        tmp_token = environment.get("HTTP_AUTH")
 
         if tmp_token is None:
             raise graphql.GraphQLError("User not logged in.")
@@ -73,8 +74,6 @@ def authenticate_user(func):
 
         else:
             raise graphql.GraphQLError("User not logged in.")
-
-        return func(*args, **kwargs)
 
     return wrapper
 

@@ -1,7 +1,6 @@
 from api.models.classes import Class
 from app import db, api
 from ..models import SubjectTeacher
-from sqlalchemy import *
 import sqlalchemy.dialects.postgresql as psql
 import uuid
 

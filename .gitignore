@@ -129,13 +129,10 @@ dmypy.json
 .pyre/
 
 # User created ignores
-*.db
-*.db.old
 zdev_cache/
 *.code-workspace
 .vscode/
 .gitignore
-op.py
-op.txt
-tst.py
 sample_keys
+.api_env.env
+.db_env.env
